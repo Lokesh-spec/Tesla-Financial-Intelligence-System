@@ -1,0 +1,20 @@
+pipeline:
+    raw_pdf_path: /Users/lokeshkv/data-engineering/Tesla_Financial_Document_Q_and_A_System_using_RAG/data/raw
+    extracted_text_path: /Users/lokeshkv/data-engineering/Tesla_Financial_Document_Q_and_A_System_using_RAG/data/extracted
+    cleaned_text_path: /Users/lokeshkv/data-engineering/Tesla_Financial_Document_Q_and_A_System_using_RAG/data/cleaned
+    chunked_data_path: /Users/lokeshkv/data-engineering/Tesla_Financial_Document_Q_and_A_System_using_RAG/data/chunked/
+    vector_db_path : /Users/lokeshkv/data-engineering/Tesla_Financial_Document_Q_and_A_System_using_RAG/data/vector_db_path
+ingestion:
+    chunk_size: 400
+    chunk_overlap: 50
+    provider: "openai"
+    embedding_model: "text-embedding-3-small"
+    dimensions: 1024
+retrieval:
+    top_k: 5
+    similarity_metric: "cosine"
+generation:
+    max_content_chunks: 5
+    temperature: 0
+evaluation:
+    enable_logging: true

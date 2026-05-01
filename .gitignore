@@ -1,0 +1,109 @@
+# ----------------------------
+
+# Environment & Secrets
+
+# ----------------------------
+
+.env
+.env.*
+*.env
+
+# ----------------------------
+
+# Python
+
+# ----------------------------
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+
+.venv/
+venv/
+env/
+ENV/
+
+# ----------------------------
+
+# Jupyter Notebooks
+
+# ----------------------------
+
+.ipynb_checkpoints/
+
+# ----------------------------
+
+# OS / System Files
+
+# ----------------------------
+
+.DS_Store
+Thumbs.db
+
+# ----------------------------
+
+# Logs
+
+# ----------------------------
+
+*.log
+
+# ----------------------------
+
+# Build / Packaging
+
+# ----------------------------
+
+build/
+dist/
+*.egg-info/
+
+# ----------------------------
+
+# Vector Database (IMPORTANT)
+
+# ----------------------------
+
+data/vector_db_path/
+
+# ----------------------------
+
+# Data (Optional Strategy)
+
+# ----------------------------
+
+# Keep raw PDFs if you want reproducibility
+
+# Ignore processed data to reduce repo size
+
+data/extracted/
+data/cleaned/
+data/chunked/
+
+# Uncomment below if you DON'T want to upload raw PDFs
+
+# data/raw/
+
+# ----------------------------
+
+# IDE / Editor
+
+# ----------------------------
+
+.vscode/
+.idea/
+
+# ----------------------------
+
+# Misc
+
+# ----------------------------
+
+*.sqlite3
+*.bin
+*.pickle
+uv.lock
