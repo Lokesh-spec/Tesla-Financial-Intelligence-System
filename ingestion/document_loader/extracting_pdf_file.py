@@ -1,4 +1,3 @@
-import os
 import yaml
 from pathlib import Path
 from typing import Union
@@ -49,7 +48,3 @@ def extract_text_from_pdfs(config_path: Union[str, Path]) -> None:
 
     print(f"Successfully processed {len(pdf_files)} PDF files.")
 
-
-if __name__ == "__main__":
-    config_file = Path("/Users/lokeshkv/data-engineering/Tesla_Financial_Document_Q_and_A_System_using_RAG/config/parameters.yaml")
-    extract_text_from_pdfs(config_file)

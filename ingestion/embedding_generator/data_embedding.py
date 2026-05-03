@@ -2,22 +2,23 @@ import yaml
 import json
 from pathlib import Path
 from dotenv import load_dotenv
+from typing import Union, Optional
 from langchain_core.documents import Document
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 
 load_dotenv()
 
-def create_vector_db(config_path: [str, Path]) -> Chroma:
+def create_vector_db(config_path: Union[str, Path]) -> Optional[Chroma]:
     """
     Loads JSON chunk files, converts them to documents, embeds them using 
-    HuggingFace, and persists the database.
+    OpenAIEmbeddings, and persists the database. If no files exist, prints a message and moves on.
     
     Args:
         config_path (str or Path): Path to the parameters.yaml file.
         
     Returns:
-        Chroma: The persisted Chroma vector database instance.
+        Chroma or None: The persisted Chroma vector database instance, or None if no files are found.
     """
     config_path = Path(config_path)
 
@@ -38,9 +39,17 @@ def create_vector_db(config_path: [str, Path]) -> Chroma:
     documents = []
     json_files = list(chunked_data_path.glob("*.json"))
 
-    print(f"Total JSON files: {len(json_files)}")
+    print(f"Total JSON files found: {len(json_files)}")
     for f in json_files:
-        print(f.name)
+        print(f"Found: {f.name}")
+
+    # Check: If no files exist, print and return
+    if not json_files:
+        print(
+            f"No JSON files found at {chunked_data_path}. "
+            "Skipping Chroma DB creation and moving on."
+        )
+        return None
 
     for json_file in json_files:
         with open(json_file, "r", encoding="utf-8") as f:
@@ -54,9 +63,9 @@ def create_vector_db(config_path: [str, Path]) -> Chroma:
                 )
             )
 
-    print(f"Loaded {len(documents)} documents")
+    print(f"Loaded {len(documents)} documents successfully.")
 
-    # Initialize Embedding Model (LOCAL)
+    # Initialize Embedding Model
     embedding_model = OpenAIEmbeddings(
         model="text-embedding-3-small",
         dimensions=1024
@@ -71,11 +80,9 @@ def create_vector_db(config_path: [str, Path]) -> Chroma:
     )
 
     # Persist DB
-    vectordb.persist()
+    # Note: Depending on your Chroma version, persist() might be deprecated in favor of automatic persistence.
+    if hasattr(vectordb, 'persist'):
+        vectordb.persist()
 
     print("Chroma DB created and persisted successfully.")
     return vectordb
-
-if __name__ == "__main__":
-    config_file_path = "/Users/lokeshkv/data-engineering/Tesla_Financial_Document_Q_and_A_System_using_RAG/config/parameters.yaml"
-    vectordb = create_vector_db(config_file_path)

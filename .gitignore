@@ -106,4 +106,4 @@ data/chunked/
 *.sqlite3
 *.bin
 *.pickle
-uv.lock
+check_point.json

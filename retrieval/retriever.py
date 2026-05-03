@@ -20,4 +20,4 @@ def load_vector_db(config):
 def get_retriever(config, k=5):
     vectordb = load_vector_db(config)
     print("Vector count:", vectordb._collection.count())
-    return vectordb.as_retriever(search_kwargs={"k": k})
+    return vectordb.as_retriever(search_kwargs={"k": k })

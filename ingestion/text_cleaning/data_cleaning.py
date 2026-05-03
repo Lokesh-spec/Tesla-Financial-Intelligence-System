@@ -1,12 +1,13 @@
-import os
 import re
 import yaml
 from pathlib import Path
+from typing import Union
 
-def clean_text(config_path: Path) -> None:
+def clean_text(config_path: Union[Path, str]) -> None:
     """
     Cleans extracted text files and saves cleaned versions.
     """
+    config_path = Path(config_path)
     if not config_path.exists():
         print(f"Looking for file at: {config_path.absolute()}")
         raise FileNotFoundError(f"Configuration file not found at: {config_path}")
@@ -43,7 +44,3 @@ def clean_text(config_path: Path) -> None:
 
     print(f"Cleaned {len(text_files)} files successfully.")
 
-
-if __name__ == "__main__":
-    config_file = Path("/Users/lokeshkv/data-engineering/Tesla_Financial_Document_Q_and_A_System_using_RAG/config/parameters.yaml")
-    clean_text(config_file)

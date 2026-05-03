@@ -24,21 +24,7 @@ This project solves:
 
 ## Architecture
 
-```
-User Query
-   ↓
-Query Processing (year extraction + augmentation)
-   ↓
-Retriever (ChromaDB + metadata filtering)
-   ↓
-Top-K Relevant Chunks
-   ↓
-Prompt Construction
-   ↓
-LLM (OpenAI)
-   ↓
-Grounded Answer
-```
+![RAG Pipeline Architecture](RAG_Pipeline.png)
 
 ---
 
@@ -258,17 +244,51 @@ OPENAI_API_KEY=your_api_key
 
 ### 3. Run Pipeline
 
-#### Step 1: Create Vector DB
+To run the end-to-end pipeline (which handles data ingestion, processing, vector DB creation, and starts the query engine):
 
-```
-python ingestion/embedding_generator/data_embedding.py
+```bash
+python main.py
 ```
 
-#### Step 2: Run Query Engine
+**Example Execution Output:**
 
+```text
+============================================================
+Tesla Financial Intelligence System — RAG Pipeline
+============================================================
+
+[Step 0] Loading configuration...
+
+[Step 1] Loading checkpoint...
+  Checkpoint loaded: check_point.json
+
+[Step 2] Archiving previously processed files...
+  No previously processed files found — skipping archive.
+
+[Step 3] Running ingestion pipeline...
+  Extracting text from PDFs...
+Successfully processed 7 PDF files.
+  Cleaning extracted text...
+Cleaned 7 files successfully.
+  Chunking cleaned text...
+Processed NASDAQ_TSLA_2022.txt → 2457 chunks
+Processed NASDAQ_TSLA_2020.txt → 4522 chunks
+Processed tsla-20231231-gen.txt → 1255 chunks
+Total files processed: 7
+  Generating embeddings and storing in ChromaDB...
+Loaded 17901 documents successfully.
+Chroma DB created and persisted successfully.
+  Ingestion pipeline complete.
+
+[Step 4] Updating checkpoint...
+  Checkpoint updated: check_point.json
+
+[Step 5] Starting query engine...
+============================================================
+Vector count: 17901
 ```
-python query_engine.py
-```
+
+![Terminal Query Engine Output](terminal_output.png)
 
 ---
 
