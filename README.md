@@ -40,7 +40,7 @@ tesla-rag-system/
 │   ├── chunked/            # chunked JSON
 │   └── vector_db/          # ChromaDB storage
 │
-├── ingestion/
+├── pipeline/
 │   ├── document_loader/
 │   ├── text_cleaning/
 │   ├── chunking_strategy/
