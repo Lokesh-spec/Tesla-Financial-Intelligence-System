@@ -62,6 +62,12 @@ tesla-rag-system/
 
 ---
 
+## Dataset
+
+Dataset sourced from publicly available Tesla SEC annual reports (10-K filings).
+
+The reports were used for educational and portfolio demonstration purposes to build a Retrieval-Augmented Generation (RAG) system for financial document question answering.
+
 ## Key Features
 
 ### 1. End-to-End RAG Pipeline
