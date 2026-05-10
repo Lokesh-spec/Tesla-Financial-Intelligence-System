@@ -111,3 +111,5 @@ check_point.json
 
 # ----------------------------
 uv.lock
+
+.streamlit/
