@@ -58,7 +58,7 @@ def retrieve_chunks(vectordb, enhanced_query: str, years: list, top_k: int) -> l
     """
 
     # Increase recall pool
-    retriever = vectordb.as_retriever(search_kwargs={"k": top_k * 8})
+    retriever = vectordb.as_retriever(search_kwargs={"k": top_k * 3})
     docs = retriever.invoke(enhanced_query)
 
     if not years:
@@ -84,40 +84,95 @@ def retrieve_chunks(vectordb, enhanced_query: str, years: list, top_k: int) -> l
     return filtered_docs[:top_k]
 
 
-def run_query_engine(config_path):
-    config = load_config(config_path)
-    top_k = config.get("retrieval", {}).get("top_k", 10)
+def classify_query(query: str) -> str:
+    query_lower =query.lower()
 
+    if any(word in query_lower for word in 
+           ["compare", "vs", "versus", "difference", 
+            "between", "contrast", "better", "worse"]):
+        return {"k": 15, "type": "comparison"}
+    
+    elif any(word in query_lower for word in 
+             ["summary", "overview", "overall", "explain", 
+              "describe", "tell me about", "what happened"]):
+        return {"k": 10, "type": "summary"}
+    
+    else:
+        return {"k": 5, "type": "specific"}
+
+# def run_query_engine(config_path):
+#     config = load_config(config_path)
+    
+#     vectordb = load_vector_db(config)
+
+#     print("Vector count:", vectordb._collection.count())
+
+#     while True:
+#         query = input("\nAsk a question (or 'exit'): ")
+
+#         search_params = classify_query(query)
+#         top_k = search_params["k"]
+#         query_type = search_params["type"]
+
+#         if query.lower() == "exit":
+#             break
+
+#         years = extract_years(query)
+
+#         enhanced_query = build_enhanced_query(query, years)
+
+#         raw_docs = retrieve_chunks(vectordb, enhanced_query, years, top_k)
+
+#         docs = deduplicate_chunks(raw_docs)
+
+#         print("\n--- Retrieved Chunks ---")
+#         for doc in docs:
+#             print(doc.metadata)
+#             print(doc.page_content[:300])
+#             print("-----")
+
+#         print(f"\nTotal unique chunks retrieved: {len(docs)}")
+
+#         context = "\n\n".join([doc.page_content for doc in docs])
+
+#         answer = generate_answer(context, query, query_type)
+
+#         print("\nAnswer:")
+#         print(answer)
+
+def run_query_engine(query: str, config_path: str):
+    config = load_config(config_path)
+    
     vectordb = load_vector_db(config)
 
     print("Vector count:", vectordb._collection.count())
 
-    while True:
-        query = input("\nAsk a question (or 'exit'): ")
+    query = input("\nAsk a question (or 'exit'): ")
 
-        if query.lower() == "exit":
-            break
+    search_params = classify_query(query)
+    top_k = search_params["k"]
+    query_type = search_params["type"]
 
-        years = extract_years(query)
+    years = extract_years(query)
 
-        enhanced_query = build_enhanced_query(query, years)
+    enhanced_query = build_enhanced_query(query, years)
 
-        raw_docs = retrieve_chunks(vectordb, enhanced_query, years, top_k)
+    raw_docs = retrieve_chunks(vectordb, enhanced_query, years, top_k)
 
-        docs = deduplicate_chunks(raw_docs)
+    docs = deduplicate_chunks(raw_docs)
 
-        print("\n--- Retrieved Chunks ---")
-        for doc in docs:
-            print(doc.metadata)
-            print(doc.page_content[:300])
-            print("-----")
+    print("\n--- Retrieved Chunks ---")
+    for doc in docs:
+        print(doc.metadata)
+        print(doc.page_content[:300])
+        print("-----")
 
-        print(f"\nTotal unique chunks retrieved: {len(docs)}")
+    print(f"\nTotal unique chunks retrieved: {len(docs)}")
 
-        context = "\n\n".join([doc.page_content for doc in docs])
+    context = "\n\n".join([doc.page_content for doc in docs])
 
-        answer = generate_answer(context, query)
+    answer = generate_answer(context, query, query_type)
 
-        print("\nAnswer:")
-        print(answer)
+    print("\nAnswer:")
+    print(answer)
 
