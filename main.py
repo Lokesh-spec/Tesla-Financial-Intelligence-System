@@ -3,10 +3,10 @@ import json
 import shutil
 from typing import Union
 from query_engine import run_query_engine
-from ingestion.document_loader.extracting_pdf_file import extract_text_from_pdfs
-from ingestion.text_cleaning.data_cleaning import clean_text
-from ingestion.chunking_strategy.data_chunking import process_and_chunk_documents
-from ingestion.embedding_generator.data_embedding import create_vector_db
+from pipeline.document_loader.extracting_pdf_file import extract_text_from_pdfs
+from pipeline.text_cleaning.data_cleaning import clean_text
+from pipeline.chunking_strategy.data_chunking import process_and_chunk_documents
+from pipeline.embedding_generator.data_embedding import create_vector_db
 from pathlib import Path
 
 
