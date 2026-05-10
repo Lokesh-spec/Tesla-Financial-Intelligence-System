@@ -147,8 +147,6 @@ def run_query_engine(query: str, config_path: str):
 
     print("Vector count:", vectordb._collection.count())
 
-    query = input("\nAsk a question (or 'exit'): ")
-
     search_params = classify_query(query)
     top_k = search_params["k"]
     query_type = search_params["type"]
