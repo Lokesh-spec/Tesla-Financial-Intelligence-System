@@ -107,3 +107,7 @@ data/chunked/
 *.bin
 *.pickle
 check_point.json
+
+
+# ----------------------------
+uv.lock
