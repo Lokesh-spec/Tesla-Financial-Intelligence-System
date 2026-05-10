@@ -23,7 +23,7 @@ config, vectordb = load_resources()
 
 # ── Sidebar ──
 with st.sidebar:
-    st.image("RAG_Pipeline.png", use_container_width=True)
+    st.image("images/RAG_Pipeline.png", use_container_width=True)
     st.markdown("---")
     st.markdown("### About")
     st.markdown(
