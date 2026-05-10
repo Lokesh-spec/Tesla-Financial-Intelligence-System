@@ -181,7 +181,7 @@ Tesla’s total revenues in 2017 were approximately $11.76 billion.
 
 ---
 
-## Visual Proof / Sample Outputs
+## Sample Outputs
 
 The following images illustrate example system queries and generated answers from the Tesla financial document Q&A pipeline.
 
