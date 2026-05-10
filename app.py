@@ -1,8 +1,11 @@
+import os
 import streamlit as st
 from query_engine import load_config, extract_years, build_enhanced_query, retrieve_chunks, deduplicate_chunks, classify_query
 from generation.generator import generate_answer
 
 CONFIG_PATH = "config/parameters.yaml"
+
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # ── Page config ──
 st.set_page_config(
